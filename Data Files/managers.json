@@ -1,0 +1,18 @@
+[
+    {
+        "role": "Manager",
+        "id": "M1",
+        "name": "Miky",
+        "surname": "Mora",
+        "salary": 5000,
+        "department": "D1"
+    },
+    {
+        "role": "Manager",
+        "id": "M2",
+        "name": "Roman",
+        "surname": "Janov",
+        "salary": 4800,
+        "department": "D2"
+    }
+]

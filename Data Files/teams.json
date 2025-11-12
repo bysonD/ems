@@ -1,0 +1,20 @@
+[
+    {
+        "id": "T1",
+        "name": "AJtaci",
+        "members": [],
+        "department": "D2"
+    },
+    {
+        "id": "T2",
+        "name": "Posuci",
+        "members": [],
+        "department": "D2"
+    },
+    {
+        "id": "T3",
+        "name": "Bohove Olympu",
+        "members": [],
+        "department": "D1"
+    }
+]

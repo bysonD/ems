@@ -1,0 +1,26 @@
+[
+    {
+        "role": "Worker",
+        "id": "W1",
+        "name": "Janko",
+        "surname": "Hrasko",
+        "salary": 2500,
+        "job": "J1"
+    },
+    {
+        "role": "Worker",
+        "id": "W2",
+        "name": "Denis",
+        "surname": "Dunaj",
+        "salary": 1500,
+        "job": "J2"
+    },
+    {
+        "role": "Worker",
+        "id": "W3",
+        "name": "Ivan",
+        "surname": "Tonaj",
+        "salary": 4000,
+        "job": "J3"
+    }
+]

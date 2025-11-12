@@ -1,0 +1,20 @@
+[
+    {
+        "id": "J1",
+        "name": "Backender",
+        "level": "Medior",
+        "department": "D2"
+    },
+    {
+        "id": "J2",
+        "name": "Kameraman",
+        "level": "Junior",
+        "department": "D1"
+    },
+    {
+        "id": "J3",
+        "name": "Grafik",
+        "level": "Senior",
+        "department": "D1"
+    }
+]

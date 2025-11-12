@@ -1,0 +1,33 @@
+[
+    {
+        "id": "D1",
+        "name": "Marketing",
+        "manager": "M1",
+        "teams": [
+            "T3"
+        ],
+        "members": [
+            "W2",
+            "W3"
+        ],
+        "jobs": [
+            "J2",
+            "J3"
+        ]
+    },
+    {
+        "id": "D2",
+        "name": "IT",
+        "manager": "M2",
+        "teams": [
+            "T1",
+            "T2"
+        ],
+        "members": [
+            "W1"
+        ],
+        "jobs": [
+            "J1"
+        ]
+    }
+]
