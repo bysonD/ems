@@ -1,3 +1,4 @@
+
 import json
 from repository import Repository
 from data_objects import (
@@ -11,6 +12,8 @@ from data_objects import (
 
 SAVE_FOLDER = "Data Files/"
 
+ID_COUNTER_FILE = f"{SAVE_FOLDER}id_counter.json"
+
 FILES = {
 "departments": f"{SAVE_FOLDER}departments.json",
 "teams": f"{SAVE_FOLDER}teams.json",
@@ -20,7 +23,21 @@ FILES = {
 "leaders": f"{SAVE_FOLDER}leaders.json"
 }
 
+def save_id_counters():
+    id_counter_dict = {
+        "dep_id_counter": Department.get_counter(),
+        "team_id_counter": Team.get_counter(),
+        "job_id_counter": JobPosition.get_counter(),
+        "worker_id_counter": Worker.get_counter(),
+        "manager_id_counter": Manager.get_counter(),
+        "leader_id_counter": Leader.get_counter()
+    }
+    with open(ID_COUNTER_FILE, "w") as f:
+        json.dump(id_counter_dict, f, indent=4)
+
+
 def save_repository_to_files():
+    save_id_counters()
     for key, value in FILES.items():
         object_list = getattr(Repository, key)
         list_of_dicts = Repository.make_list_of_dicts(object_list)
@@ -36,48 +53,96 @@ def load_data(filename:str):
         print(f"File '{filename}' was not found!")
 
 def load_repository_from_files():
+    DEPARTMENTS = {}
+    TEAMS = {}
+    JOBS = {}
+    WORKERS = {}
+    MANAGERS = {}
+    LEADERS = {}
     # 1) Load raw JSON dictionaries
-    """deps_data = load_data(FILES["departments"])
+    deps_data = load_data(FILES["departments"])
     teams_data = load_data(FILES["teams"])
     jobs_data = load_data(FILES["jobs"])
     workers_data = load_data(FILES["workers"])
     managers_data = load_data(FILES["managers"])
-    leaders_data = load_data(FILES["leaders"])"""
-    data = {}
-    for key, value in FILES.items():
-        data[key] = load_data(value)
-    print(data)
-
-    # 2) Create objects without references
-    for key, value in data.items():
-        if value:
-            for record in value:
-                if key == "departments":
-                    Department(record["name"])
-                if key == "teams":
-                    Team(record["name"])
-                if key == "jobs":
-                    JobPosition(record["name"], record["level"])
-                if key == "workers":
-                    Worker(record["name"], record["surname"], record["salary"])
-                if key == "managers":
-                    Manager(record["name"], record["surname"], record["salary"])
-                if key == "leaders":
-                    Leader(record["name"], record["surname"], record["salary"])
-
-    # 3) Resolve references
-
+    leaders_data = load_data(FILES["leaders"])
+    id_counters = load_data(ID_COUNTER_FILE)
     
-def resolve_references():
-    pass
+    # 2) Create class instances without references
+    for dep in deps_data:
+        temp_dep = Department(dep["name"])
+        temp_dep.id = dep["id"]
+        DEPARTMENTS[dep["id"]] = temp_dep
+
+    for team in teams_data:
+        temp_team = Team(team["name"])
+        temp_team.id = team["id"]
+        TEAMS[team["id"]] = temp_team
+
+    for job in jobs_data:
+        temp_job = JobPosition(job["name"], job["level"])
+        temp_job.id = job["id"]
+        JOBS[job["id"]] = temp_job
+
+    for worker in workers_data:
+        temp_worker = Worker(worker["name"], worker["surname"], worker["salary"])
+        temp_worker.id = worker["id"]
+        WORKERS[worker["id"]] = temp_worker
+
+    for manager in managers_data:
+        temp_manager = Manager(manager["name"], manager["surname"], manager["salary"])
+        temp_manager.id = manager["id"]
+        MANAGERS[manager["id"]] = temp_manager
+
+    for leader in leaders_data:
+        temp_leader = Leader(leader["name"], leader["surname"], leader["salary"])
+        temp_leader.id = leader["id"]
+        LEADERS[leader["id"]] = temp_leader
+
+    # 3) Update ID counters
+    for key, value in id_counters.items():
+        if key == "dep_id_counter":
+            Department.set_counter(value)
+        if key == "team_id_counter":
+            Team.set_counter(value)
+        if key == "job_id_counter":
+            JobPosition.set_counter(value)
+        if key == "worker_id_counter":
+            Worker.set_counter(value)
+        if key == "manager_id_counter":
+            Manager.set_counter(value)
+        if key == "leader_id_counter":
+            Leader.set_counter(value)
+
+    # 4) Resolve references
+    for dep_dict in deps_data:
+        dep = DEPARTMENTS[dep_dict["id"]]
+        dep.manager = MANAGERS.get(dep_dict["manager"])
+        dep.teams = [TEAMS[t_id] for t_id in dep_dict["teams"]]
+        dep.members = [WORKERS[w_id] for w_id in dep_dict["members"]]
+        dep.jobs = [JOBS[j_id] for j_id in dep_dict["jobs"]]
+
+    for team_dict in teams_data:
+        team = TEAMS[team_dict["id"]]
+        team.department = DEPARTMENTS.get(team_dict["department"])
+        team.members = [WORKERS[w_id] for w_id in team_dict["members"]]
+
+    for job_dict in jobs_data:
+        job = JOBS[job_dict["id"]]
+        job.department = DEPARTMENTS.get(job_dict["department"])
+
+    for worker_dict in workers_data:
+        worker = WORKERS[worker_dict["id"]]
+        worker.job = JOBS.get(worker_dict["job"])
+
+    for manager_dict in managers_data:
+        manager = MANAGERS[manager_dict["id"]]
+        manager.department = DEPARTMENTS.get(manager_dict["department"])
+
+    for leader_dict in leaders_data:
+        leader = LEADERS[leader_dict["id"]]
+        leader.departments = [DEPARTMENTS[d_id] for d_id in leader_dict["departments"]]    
 
 def save_data(filename:str, list_of_dicts:list):
     with open(filename, "w") as f:
         json.dump(list_of_dicts, f, indent=4)
-
-
-if __name__ == "__main__":
-    load_repository_from_files()
-    print()
-    for dep in Repository.departments:
-        print(dep)

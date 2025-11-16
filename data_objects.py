@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class BaseModel(ABC):
+    counter = 1
     def __init__(self, name:str):
         self.id = ""
         self.name = name
@@ -16,11 +17,23 @@ class BaseModel(ABC):
                 result[key] = value.get_id()
             else:
                 result[key] = value
-
         return result
-
-        
     
+    @classmethod
+    def get_counter(cls):
+        return cls.counter
+    
+    @classmethod
+    def set_counter(cls, value:int = None):
+        if value:
+            cls.counter = value
+        else:
+            cls.counter = 1
+
+    @classmethod
+    def generate_id(cls, prefix:str):
+        return prefix + str(cls.counter)
+       
     @abstractmethod
     def get_name(self):
         return self.name
@@ -29,8 +42,9 @@ class BaseModel(ABC):
         return self.id
     
     @abstractmethod
-    def __str__(self):
-        return f"Name: {self.name}"
+    def __repr__(self):
+        return f"""ID: {self.id}
+Name: {self.name}"""
     
     @staticmethod
     def get_list_members(proper_list:list):
@@ -42,10 +56,12 @@ class BaseModel(ABC):
 class Department(BaseModel):
     def __init__(self, name):
         super().__init__(name)
+        self.id = self.generate_id("D")
         self.manager = None
         self.teams = []
         self.members = []
         self.jobs = []
+        Department.counter += 1
 
     def add_to_list(self, obj):
         if isinstance(obj, Team):
@@ -68,13 +84,13 @@ class Department(BaseModel):
     def get_name(self):
         return super().get_name()
     
-    def __str__(self):
+    def __repr__(self):
         if self.manager:
             temp_man = self.manager.get_name()
         else:
             temp_man = "No manager"
         return f"""DEPARTMENT
-{super().__str__()}
+{super().__repr__()}
 Manager: {temp_man}
     Members: {self.get_list_members(self.members)}
     Teams: {self.get_list_members(self.teams)}
@@ -83,18 +99,22 @@ Manager: {temp_man}
 class Team(BaseModel):
     def __init__(self, name, department:Department = None):
         super().__init__(name)
+        self.id = self.generate_id("T")
         self.members = []
         self.department = department
-        department.add_to_list(self)
+        if department:
+            department.add_to_list(self)
+        Team.counter += 1
 
-    def add_to_team(self, member):
-        self.members.append(member)
+    def add_to_team(self, *args):
+        for member in args:
+            self.members.append(member)
 
     def get_name(self):
         return super().get_name()
     
-    def __str__(self):
-        return f"""{super().__str__()}
+    def __repr__(self):
+        return f"""{super().__repr__()}
 Members: {self.get_list_members(self.members)}
 Department: {self.department.get_name()}"""
     
@@ -102,14 +122,17 @@ class JobPosition(BaseModel):
     levels = ["Junior", "Medior", "Senior"]
     def __init__(self, name, level:str, department:Department = None):
         super().__init__(name)
+        self.id = self.generate_id("J")
         self.level = level
         self.department = department
-        department.add_to_list(self)
+        if department:
+            department.add_to_list(self)
+        JobPosition.counter += 1
 
     def get_name(self):
         return f"{self.level} {self.name}"
     
-    def __str__(self):
+    def __repr__(self):
         return f"""Position: {self.get_name()}
 Department: {self.department.get_name()}"""
     
@@ -131,8 +154,8 @@ class Employee(BaseModel):
     def get_name(self):
         return f"{self.name} {self.surname}"
     
-    def __str__(self):
-        return f"""{super().__str__()}
+    def __repr__(self):
+        return f"""{super().__repr__()}
 Surname: {self.surname}
 Salary: {self.salary} €/month""" 
     
@@ -140,14 +163,17 @@ class Worker(Employee):
     def __init__(self, name, surname, salary, job:JobPosition = None):
         self.role = "Worker"
         super().__init__(name, surname, salary)
+        self.id = self.generate_id("W")
         self.job = job
-        job.department.add_to_list(self)
+        if job:
+            job.department.add_to_list(self)
+        Worker.counter += 1
 
     def get_name(self):
         return super().get_name()
     
-    def __str__(self):
-        return f"""{super().__str__()}
+    def __repr__(self):
+        return f"""{super().__repr__()}
 Department: {self.job.department.get_name()}
 Position: {self.job.get_name()}"""   
 
@@ -155,11 +181,17 @@ class Manager(Employee):
     def __init__(self, name, surname, salary, dep:Department = None):
         self.role = "Manager"
         super().__init__(name, surname, salary)
+        self.id = self.generate_id("M")
         self.department = dep
-        self.department.add_manager(self)
+        if dep:
+            self.department.add_manager(self)
+        Manager.counter += 1
 
     def get_name(self):
         return super().get_name()
+    
+    def set_department(self, dep:Department):
+        self.department = dep
     
     def hire_new_worker(self, name:str, surname:str, salary:int, job:JobPosition):
         temp_worker = Worker(name, surname, salary, job)
@@ -174,10 +206,13 @@ class Leader(Employee):
     def __init__(self, name, surname, salary):
         self.role = "Leader"
         super().__init__(name, surname, salary)
+        self.id = self.generate_id("L")
         self.departments: list[Department] = []
+        Leader.counter += 1
 
-    def add_department(self, department:Department):
-        self.departments.append(department)
+    def add_departments(self, *args:Department):
+        for department in args:
+            self.departments.append(department)
 
     def create_new_department(self, name:str):
         temp_dep = Department(name)
@@ -193,6 +228,7 @@ class Leader(Employee):
     def set_manager(self,dep:Department, new_manager:Manager):
         self.get_manager(dep)
         dep.add_manager(new_manager)
+        new_manager.set_department(dep)
         return f"New manager of department {dep.get_name()} is {new_manager.get_name()}.\n"
     
     def get_managers(self):

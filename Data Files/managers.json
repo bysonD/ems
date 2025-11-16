@@ -2,17 +2,25 @@
     {
         "role": "Manager",
         "id": "M1",
-        "name": "Miky",
-        "surname": "Mora",
-        "salary": 5000,
+        "name": "Alex",
+        "surname": "The Great",
+        "salary": 4000,
         "department": "D1"
     },
     {
         "role": "Manager",
         "id": "M2",
-        "name": "Roman",
-        "surname": "Janov",
-        "salary": 4800,
+        "name": "Ronald",
+        "surname": "Brown",
+        "salary": 3500,
         "department": "D2"
+    },
+    {
+        "role": "Manager",
+        "id": "M3",
+        "name": "Dan",
+        "surname": "Collins",
+        "salary": 4200,
+        "department": "D3"
     }
 ]

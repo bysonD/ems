@@ -1,20 +1,29 @@
 [
     {
         "id": "T1",
-        "name": "AJtaci",
-        "members": [],
-        "department": "D2"
+        "name": "DevOps",
+        "members": [
+            "W1",
+            "W4"
+        ],
+        "department": "D1"
     },
     {
         "id": "T2",
-        "name": "Posuci",
-        "members": [],
+        "name": "Graphic Designers",
+        "members": [
+            "W2",
+            "W5"
+        ],
         "department": "D2"
     },
     {
         "id": "T3",
-        "name": "Bohove Olympu",
-        "members": [],
-        "department": "D1"
+        "name": "Economists",
+        "members": [
+            "W3",
+            "W6"
+        ],
+        "department": "D3"
     }
 ]

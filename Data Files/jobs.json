@@ -1,20 +1,20 @@
 [
     {
         "id": "J1",
-        "name": "Backender",
-        "level": "Medior",
-        "department": "D2"
-    },
-    {
-        "id": "J2",
-        "name": "Kameraman",
+        "name": "Programmer",
         "level": "Junior",
         "department": "D1"
     },
     {
+        "id": "J2",
+        "name": "Vector Artist",
+        "level": "Medior",
+        "department": "D2"
+    },
+    {
         "id": "J3",
-        "name": "Grafik",
+        "name": "Accountant",
         "level": "Senior",
-        "department": "D1"
+        "department": "D3"
     }
 ]

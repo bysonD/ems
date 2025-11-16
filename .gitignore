@@ -1,5 +1,6 @@
-company.db
-__pychache__
-database.py
-test.py
-quick_start.py
+# Python cache
+__pycache__
+
+# Testing files
+starter.py
+testing.py

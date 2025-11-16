@@ -1,33 +1,47 @@
 [
     {
         "id": "D1",
-        "name": "Marketing",
+        "name": "IT",
         "manager": "M1",
         "teams": [
-            "T3"
+            "T1"
         ],
         "members": [
-            "W2",
-            "W3"
+            "W1",
+            "W4"
         ],
         "jobs": [
-            "J2",
-            "J3"
+            "J1"
         ]
     },
     {
         "id": "D2",
-        "name": "IT",
+        "name": "Marketing",
         "manager": "M2",
         "teams": [
-            "T1",
             "T2"
         ],
         "members": [
-            "W1"
+            "W2",
+            "W5"
         ],
         "jobs": [
-            "J1"
+            "J2"
+        ]
+    },
+    {
+        "id": "D3",
+        "name": "Finance",
+        "manager": "M3",
+        "teams": [
+            "T3"
+        ],
+        "members": [
+            "W3",
+            "W6"
+        ],
+        "jobs": [
+            "J3"
         ]
     }
 ]

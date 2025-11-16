@@ -2,9 +2,13 @@
     {
         "role": "Leader",
         "id": "L1",
-        "name": "Pet",
-        "surname": "Postar",
+        "name": "Peter",
+        "surname": "Griffins",
         "salary": 6000,
-        "departments": []
+        "departments": [
+            "D1",
+            "D2",
+            "D3"
+        ]
     }
 ]
