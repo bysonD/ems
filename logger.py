@@ -1,18 +1,22 @@
+import datetime as dt
+
+LOG_FILE_NAME = "logs"
+
 class Handler:
     def send(self, message):
         raise NotImplemented
-    
-class ConsoleHandler(Handler):
-    def send(self, message):
-        print(message)
 
-class FileHandler(Handler):
-    def __init__(self, path):
-        self.path = path
-
+class ComboHandler(Handler):
     def send(self, message):
-        with open(self.path, "a") as f:
-            f.write(message)
+        current_date = dt.datetime.now()
+        formatted = current_date.strftime("[Date: %Y/%m/%d Time: %H:%M:%S]")
+        full_message = f"{formatted} -> {message}"
+        print(full_message)
+
+        formatted_date = current_date.strftime("%Y_%m_%d_")
+        final_path = f"Logs/{formatted_date + LOG_FILE_NAME}.log"
+        with open(final_path, "a") as f:
+            f.write(full_message)
 
 class Logger:
     def __init__(self, handler):
@@ -21,5 +25,4 @@ class Logger:
     def log(self, message):
         self.handler.send(message)
 
-logger = Logger(ConsoleHandler())
-logger.log("Test Message")
+DEF_LOGGER = Logger(ComboHandler())

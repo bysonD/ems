@@ -41,6 +41,9 @@ class BaseModel(ABC):
     def get_id(self):
         return self.id
     
+    def introduce(self):
+        return f"{self.get_id()} | {self.get_name()}"
+    
     @abstractmethod
     def __repr__(self):
         return f"""ID: {self.id}
