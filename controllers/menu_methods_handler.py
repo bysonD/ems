@@ -1,7 +1,7 @@
-from repository import Repository
-from data_objects import Department, Team, JobPosition, Leader, Manager
-from global_utils import default_warning, SEPARATOR_MULTIPLIER, not_in_list_warning, base_list_hint, warning_out_of_range, clear_terminal, list_hint
-from logger import DEF_LOGGER
+from models.repository import Repository
+from models.data_objects import Department, Team, JobPosition, Leader, Manager
+from helpers.global_utils import default_warning, SEPARATOR_MULTIPLIER, not_in_list_warning, base_list_hint, warning_out_of_range, clear_terminal, list_hint
+from models.logger import DEF_LOGGER
 
 # help methods
 def dict_lookup(repo_list:list):
@@ -27,7 +27,7 @@ def check_index(index_to_check, list_to_check:list):
     return index_to_check
 
 def import_starter_method():
-    from starter import starter
+    from helpers.starter import starter
     starter()
     print("\nStarting data were succesfully imported.\n")
 

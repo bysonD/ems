@@ -1,4 +1,4 @@
-from data_objects import Department, Team, JobPosition, Worker, Manager, Leader
+from models.data_objects import Department, Team, JobPosition, Worker, Manager, Leader
 
 def starter():
     job_levels = JobPosition.levels

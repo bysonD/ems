@@ -5,7 +5,7 @@ class BaseModel(ABC):
     def __init__(self, name:str):
         self.id = ""
         self.name = name
-        from repository import Repository
+        from models.repository import Repository
         Repository.add(self)
 
     def get_dict(self):

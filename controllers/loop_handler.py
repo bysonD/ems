@@ -1,5 +1,5 @@
-from global_utils import *
-from menu_methods_handler import *
+from helpers.global_utils import *
+from controllers.menu_methods_handler import *
 
 def input_handler(u_input:str, max_range:int):
     u_input = u_input.strip()

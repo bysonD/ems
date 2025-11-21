@@ -1,6 +1,6 @@
 import json
-from repository import Repository
-from data_objects import (
+from models.repository import Repository
+from models.data_objects import (
     Department, 
     Team, 
     JobPosition, 

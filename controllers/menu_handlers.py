@@ -1,9 +1,9 @@
-from loop_handler import *
-from menu_methods_handler import *
-from menu_texts import *
+from controllers.loop_handler import *
+from controllers.menu_methods_handler import *
+from helpers.menu_texts import *
 from file_handler import load_repository_from_files
 from pathlib import Path
-from logger import LOG_FOLDER_NAME
+from models.logger import LOG_FOLDER_NAME
 
 
 def main_menu():

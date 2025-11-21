@@ -1,4 +1,4 @@
-from global_utils import SEPARATOR_MULTIPLIER
+from helpers.global_utils import SEPARATOR_MULTIPLIER
 
 def department_menu_desc(name:str):
     return f"""DEPARTMENT: {name}
@@ -30,16 +30,18 @@ def leader_menu_desc(name:str):
 
 def main_menu_desc():
     return f"""EMS - Employee Managment System
-----------------------------------------------
+{"-" * SEPARATOR_MULTIPLIER}
 1. Leaders
 2. Departments
 3. Managers
 4. Workers
 5. Teams
 6. Jobs
-7. COMPANY STRUCTURE
+{"-" * SEPARATOR_MULTIPLIER}
+7. Company structure
 8. View logs
 9. Import starter method
+{"-" * SEPARATOR_MULTIPLIER}
 0. Save and exit
 """
 
@@ -86,9 +88,6 @@ def instance_menu_desc(instance):
 
     body += "\n"+"-"*SEPARATOR_MULTIPLIER
     return header+body
-
-def instance_creation_menu_text(creator:str, creating:str):
-    return f"{creating.upper()} IS BEING CREATED BY: {creator}"
 
 def starter_menu():
     return f"""1. Import starting data

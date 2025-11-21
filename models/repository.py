@@ -1,4 +1,4 @@
-from data_objects import (
+from models.data_objects import (
     Department, 
     Team, 
     JobPosition, 
@@ -33,4 +33,3 @@ class Repository:
             cls.managers.append(obj)
         elif isinstance(obj, Leader):
             cls.leaders.append(obj)
-            
