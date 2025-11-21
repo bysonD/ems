@@ -1,22 +1,32 @@
 import datetime as dt
 
-LOG_FILE_NAME = "logs"
+LOG_FOLDER_NAME = "logs"
 
 class Handler:
     def send(self, message):
         raise NotImplemented
+    
+    @staticmethod
+    def file_path_formatter():
+        current_date = dt.datetime.now()
+        formatted = current_date.strftime("%Y_%m_%d_")
+        return f"logs/{formatted + LOG_FOLDER_NAME}.log"
+    
+    @staticmethod
+    def date_message_formatter():
+        current_date = dt.datetime.now()
+        formatted = current_date.strftime("[Date: %Y/%m/%d Time: %H:%M:%S]")
+        return formatted
 
 class ComboHandler(Handler):
     def send(self, message):
-        current_date = dt.datetime.now()
-        formatted = current_date.strftime("[Date: %Y/%m/%d Time: %H:%M:%S]")
-        full_message = f"{formatted} -> {message}"
-        print(full_message)
+        formatted = Handler.date_message_formatter()
+        print(f"{formatted}\n{message}\n")
 
-        formatted_date = current_date.strftime("%Y_%m_%d_")
-        final_path = f"Logs/{formatted_date + LOG_FILE_NAME}.log"
-        with open(final_path, "a") as f:
-            f.write(full_message)
+        file_path = Handler.file_path_formatter()
+        full_message = f"{formatted} -> {message}"
+        with open(file_path, "a") as f:
+            f.write(f"{full_message}\n")
 
 class Logger:
     def __init__(self, handler):

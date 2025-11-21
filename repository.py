@@ -33,3 +33,4 @@ class Repository:
             cls.managers.append(obj)
         elif isinstance(obj, Leader):
             cls.leaders.append(obj)
+            

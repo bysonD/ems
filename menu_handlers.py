@@ -1,9 +1,13 @@
 from loop_handler import *
 from menu_methods_handler import *
 from menu_texts import *
-from repository import Repository
+from file_handler import load_repository_from_files
+from pathlib import Path
+from logger import LOG_FOLDER_NAME
+
 
 def main_menu():
+    load_repository_from_files()
     default_menu_loop(main_menu_desc(), {
         1: lambda: section_menu("leader"),
         2: lambda: section_menu("department"),
@@ -11,7 +15,10 @@ def main_menu():
         4: lambda: section_menu("worker"),
         5: lambda: section_menu("team"),
         6: lambda: section_menu("job"),
-        0: None
+        7: describe_company,
+        8: logs_loop,
+        9: import_starter_method,
+        0: save_and_exit
     })
 
 def section_menu(class_name:str):
@@ -44,23 +51,31 @@ def instance_menu(instance):
     cls_type = instance.__class__.__name__
     handlers = {}
     if cls_type == "Department":
-        handlers[1] = create_team
-        handlers[2] = create_job
+        handlers[1] = lambda: create_team(instance)
+        handlers[2] = lambda: create_job(instance)
     if cls_type == "Team":
-        handlers[1] = add_member_to_team
+        handlers[1] = add_member_to_team(instance)
     if cls_type == "Manager":
-        handlers[1] = create_worker
-        handlers[2] = change_salary_of_worker
+        handlers[1] = lambda: create_worker(instance)
+        handlers[2] = lambda: change_salary_of_worker(instance)
     if cls_type == "Leader":
-        handlers[1] = create_department
-        handlers[2] = set_new_manager
-        handlers[3] = change_salary_of_manager
+        handlers[1] = lambda: create_department(instance)
+        handlers[2] = lambda: set_new_manager(instance)
+        handlers[3] = lambda: change_salary_of_manager(instance)
     handlers[0] = None
     default_menu_loop(instance_menu_desc(instance), handlers, lambda: print(instance))
 
-def choose_from_instances():
-    pass
+def describe_company():
+    default_menu_loop(company_structure_description(), {0: None})
 
-def create_instance_menu(creator, creating:str):
+def logs_loop():
+    log_folder = Path(LOG_FOLDER_NAME)
+    log_files = [f for f in log_folder.iterdir() if f.is_file()]
+    logs_text = "Available logs\n"
+
     handlers = {}
-    default_menu_loop(instance_creation_menu_text(creator.get_name(), creating), handlers)
+    for i in range(len(log_files)):
+        handlers[i+1] = lambda lf=log_files[i]: load_log(lf)
+        logs_text += f"\n{i+1}. {log_files[i].name}"
+    handlers[0] = None
+    default_menu_loop(logs_text, handlers)

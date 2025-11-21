@@ -82,7 +82,11 @@ class Department(BaseModel):
         if members:
             for member in members:
                 temp_team.add_to_team(member)
-        return f"New team {temp_team.get_name()} has been succesfully created at department {self.get_name()}."
+        return f"New team [{temp_team.introduce()}] has been succesfully created at department [{self.introduce()}]."
+    
+    def create_job(self, name:str, level:str):
+        temp_job = JobPosition(name, level, self)
+        return f"New job [{temp_job.introduce()}] has been succesfully created at department [{self.introduce()}]."
 
     def get_name(self):
         return super().get_name()
@@ -109,9 +113,8 @@ class Team(BaseModel):
             department.add_to_list(self)
         Team.counter += 1
 
-    def add_to_team(self, *args):
-        for member in args:
-            self.members.append(member)
+    def add_to_team(self, member):
+        self.members.append(member)
 
     def get_name(self):
         return super().get_name()
@@ -198,12 +201,12 @@ class Manager(Employee):
     
     def hire_new_worker(self, name:str, surname:str, salary:int, job:JobPosition):
         temp_worker = Worker(name, surname, salary, job)
-        return f"New worker {temp_worker.get_name()} has been succesfully hired at {temp_worker.job.department.get_name()} department.\n"
+        return f"New worker [{temp_worker.introduce()}] has been succesfully hired at {temp_worker.job.department.get_name()} department.\n"
     
     def change_workers_salary(self, worker:Worker, amount:int):
         temp_sal = worker.get_salary()
         worker.set_salary(amount)
-        return f"Salary of worker {worker.get_name()} has been changed from {temp_sal} to {worker.get_salary()}.\n"
+        return f"Salary of worker [{worker.introduce()}] has been changed from {temp_sal} to {worker.get_salary()}.\n"
     
 class Leader(Employee):
     def __init__(self, name, surname, salary):
@@ -219,35 +222,33 @@ class Leader(Employee):
 
     def create_new_department(self, name:str):
         temp_dep = Department(name)
-        return f"Department {temp_dep.get_name()} has been succesfully created.\n"
+        return f"Department [{temp_dep.introduce()}] has been succesfully created by leader [{self.introduce()}]."
+    
+    def hire_new_manager(self, name:str, surname:str, salary:int):
+        temp_man = Manager(name, surname, salary)
+        return f"New manager [{temp_man.introduce()}] has been succesfully hired by leader [{self.introduce()}]."
 
-    @staticmethod
-    def get_manager(dep:Department):
-        if dep.manager:
-            return f"Current manager of department {dep.get_name()} is {dep.manager.get_name()}.\n"
-        else:
-            return f"Department {dep.get_name()} has no manager.\n"
-
-    def set_manager(self,dep:Department, new_manager:Manager):
-        self.get_manager(dep)
+    def set_manager(self, dep:Department, new_manager:Manager):
         dep.add_manager(new_manager)
         new_manager.set_department(dep)
-        return f"New manager of department {dep.get_name()} is {new_manager.get_name()}.\n"
+        return f"New manager of department [{dep.introduce()}] is [{new_manager.introduce()}]."
     
     def get_managers(self):
+        if not self.departments:
+            print("No departments found, cannot proceed this action.")
+            return []
+        
         list_of_mans = []
-        if self.departments:
-            for record in self.departments:
-                list_of_mans.append(record.manager)
-            return list_of_mans
-        else:
-            raise IndexError("No departments found!\n")
+        for record in self.departments:
+            list_of_mans.append(record.manager)
+
+        return list_of_mans
         
     @staticmethod
     def change_managers_salary(manager:Manager, amount:int):
         temp_sal = manager.get_salary()
         manager.set_salary(amount)
-        return f"Salary of manager {manager.get_name()} has been changed from {temp_sal} to {manager.get_salary()}.\n"
+        return f"Salary of manager [{manager.introduce()}] has been changed from {temp_sal} to {manager.get_salary()}.\n"
     
     
     def get_name(self):
@@ -261,18 +262,3 @@ if __name__ == "__main__":
 {dep2.__dict__}\n""")
     print(f"""get_dict()
 {result_dict}""")
-
-"""
-dep2 = Department("IT")
-dep = Department("Marketing")
-
-jp = JobPosition("Programator", JobPosition.levels[3], dep2)
-jp2 = JobPosition("Strihac", JobPosition.levels[3], dep)
-
-man = Manager("Miro","Pele", 2500, jp)
-man2 = Manager("Juro", "Jantar", 2200, jp2)
-
-lidr = Leader("Palo", "Scerba", 3600)
-lidr.add_department(dep)
-lidr.add_department(dep2)
-"""

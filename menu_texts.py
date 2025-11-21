@@ -37,6 +37,10 @@ def main_menu_desc():
 4. Workers
 5. Teams
 6. Jobs
+7. COMPANY STRUCTURE
+8. View logs
+9. Import starter method
+0. Save and exit
 """
 
 def base_listing_menu_desc(section_name: str):
@@ -85,3 +89,7 @@ def instance_menu_desc(instance):
 
 def instance_creation_menu_text(creator:str, creating:str):
     return f"{creating.upper()} IS BEING CREATED BY: {creator}"
+
+def starter_menu():
+    return f"""1. Import starting data
+2. Do NOT import starting data"""

@@ -21,11 +21,18 @@ def default_menu_loop(menu_text:str, handlers:dict, func = None):
             func()
         print(menu_text)
 
-        u_input = input_handler(input(input_message(max_range)), max_range)
+        if max_range > 0:
+            input_text = input_message(max_range)
+        else:
+            input_text = input_message()
+        
+        u_input = input_handler(input(input_text), max_range)
+        print(u_input)
 
         if u_input in handlers:
             action = handlers[u_input]
             if action is None:
                 clear_terminal()
+                print("Exiting...")
                 return
             action()  
