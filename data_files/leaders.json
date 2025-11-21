@@ -1,0 +1,10 @@
+[
+    {
+        "role": "Leader",
+        "id": "L1",
+        "name": "Greg",
+        "surname": "Wolt",
+        "salary": 8000,
+        "departments": []
+    }
+]

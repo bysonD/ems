@@ -1,5 +1,5 @@
 from repository import Repository
-from data_objects import Department, Team, JobPosition, Leader, Manager, Worker
+from data_objects import Department, Team, JobPosition, Leader, Manager
 from global_utils import default_warning, SEPARATOR_MULTIPLIER, not_in_list_warning, base_list_hint, warning_out_of_range, clear_terminal, list_hint
 from logger import DEF_LOGGER
 
