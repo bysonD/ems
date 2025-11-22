@@ -27,8 +27,6 @@ def section_menu(class_name:str):
     handlers[1] = lambda: listing_menu(class_name+"s")
     if class_name == "leader":
         handlers[2] = create_leader
-    if class_name == "manager":
-        handlers[2] = create_manager
     handlers[0] = None
     default_menu_loop(base_listing_menu_desc(class_name), handlers)
 
@@ -60,8 +58,9 @@ def instance_menu(instance):
         handlers[2] = lambda: change_salary_of_worker(instance)
     if cls_type == "Leader":
         handlers[1] = lambda: create_department(instance)
-        handlers[2] = lambda: set_new_manager(instance)
-        handlers[3] = lambda: change_salary_of_manager(instance)
+        handlers[2] = lambda: create_manager(instance)
+        handlers[3] = lambda: set_new_manager(instance)
+        handlers[4] = lambda: change_salary_of_manager(instance)
     handlers[0] = None
     default_menu_loop(instance_menu_desc(instance), handlers, lambda: print(instance))
 

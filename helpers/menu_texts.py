@@ -51,7 +51,7 @@ def base_listing_menu_desc(section_name: str):
     if section_name == "manager":
         body = f"1. List all {section_name}s\n2. Create a new {section_name}\n"
     elif section_name == "leader":
-        body = f"1. List all {section_name}s\n2. Create a new {section_name}\n"
+        body = f"1. List all {section_name}s\n"
     else:
         body = f"1. List all {section_name}s\n"
     
@@ -81,8 +81,9 @@ def instance_menu_desc(instance):
     elif class_type == "Leader":
         body = f"""{"-"*SEPARATOR_MULTIPLIER}
 1. Create a new department
-2. Set a new manager of a department
-3. Change the salary of a manager"""
+2. Hire a new manager
+3. Set a new manager of a department
+4. Change the salary of a manager"""
     else:
         body = "Uknown class type!"
 
