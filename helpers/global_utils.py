@@ -32,13 +32,13 @@ def list_hint(instance_list:list):
     Acceptable classes: Department, Team, JobPosition, Worker, Manager, Leader
     """
     if instance_list:
-        result = "AVAILABLE OPTIONS\n"
+        result = "\nAVAILABLE OPTIONS\n"
         for i in range(len(instance_list)):
             result += f"\n{i+1}. [{instance_list[i].introduce()}]"
 
         result += f"\n{"-"*SEPARATOR_MULTIPLIER}"
     else:
-        result = "NO AVAILABLE OPTIONS\n"
+        result = "\nNO AVAILABLE OPTIONS\n"
     return result
 
 def base_list_hint(base_list:list):
@@ -56,8 +56,9 @@ def company_structure_description():
 {"-"*SEPARATOR_MULTIPLIER}
 LEADERS
     - Can create new departments
+    - Can hire new managers
     - Can change salary of managers
-    - Can set a new manager to an existing department
+    - Can set an existing manager to an existing department
 {"/"*SEPARATOR_MULTIPLIER}
 DEPARTMENTS
     - Can create teams
